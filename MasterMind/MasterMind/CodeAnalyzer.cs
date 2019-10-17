@@ -8,6 +8,9 @@ namespace MasterMind
     {
         public ICollection<KeyPeg> EvaluateGuess(IList<CodePeg> guess, IList<CodePeg> code)
         {
+            if (code.Count == 0) throw new InvalidOperationException();
+            if (guess.Count != code.Count) throw new InvalidOperationException();
+
             //Step1: Estimating the perfect matches using the Zip extension method on two lists and then counting true values
             int perfectmatches = guess.Zip(code, (g, c) => g == c).Count(matched => matched);
 
