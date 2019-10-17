@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMind", "MasterMind\Ma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMind.UnitTests", "MasterMind.UnitTests\MasterMind.UnitTests.csproj", "{CA04D6BD-CC8B-41C0-BBBA-9D1C7F9BA818}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMind.WebApp", "MasterMind.WebApp\MasterMind.WebApp.csproj", "{9F191059-022C-4274-AED0-7CCB7A1F939E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CA04D6BD-CC8B-41C0-BBBA-9D1C7F9BA818}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA04D6BD-CC8B-41C0-BBBA-9D1C7F9BA818}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA04D6BD-CC8B-41C0-BBBA-9D1C7F9BA818}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F191059-022C-4274-AED0-7CCB7A1F939E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F191059-022C-4274-AED0-7CCB7A1F939E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F191059-022C-4274-AED0-7CCB7A1F939E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F191059-022C-4274-AED0-7CCB7A1F939E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
