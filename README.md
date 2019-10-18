@@ -3,3 +3,5 @@
 # Master Mind
 
 A simple master mind game implementation using asp.net core 3.0 mvc
+
+The game will be available at [https://themastermind.azurewebsites.net](https://themastermind.azurewebsites.net)
