@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "404";
+}
+@section Scripts {
+
+}
+
+<div class="mainlanding notfounddiv center-align">
+    <div class="t404">
+        404
+    </div>
+    <div class="t4042">
+        The resource is not found
+    </div>
+    <div class="t4043">
+        {@ViewData["OriginalRoute"]}
+    </div>
+    <a asp-controller="Home" asp-action="Index" class="waves-effect waves-light btn-small z-depth-2"><i class="material-icons left">home</i>Go to Home</a>
+</div>
