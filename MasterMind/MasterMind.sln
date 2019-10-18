@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMind.UnitTests", "Mas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMind.WebApp", "MasterMind.WebApp\MasterMind.WebApp.csproj", "{9F191059-022C-4274-AED0-7CCB7A1F939E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterMind.Data", "MasterMind.Data\MasterMind.Data.csproj", "{2D74CCFF-6611-499F-98FD-3B0538864DA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9F191059-022C-4274-AED0-7CCB7A1F939E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F191059-022C-4274-AED0-7CCB7A1F939E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F191059-022C-4274-AED0-7CCB7A1F939E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D74CCFF-6611-499F-98FD-3B0538864DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D74CCFF-6611-499F-98FD-3B0538864DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D74CCFF-6611-499F-98FD-3B0538864DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D74CCFF-6611-499F-98FD-3B0538864DA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
