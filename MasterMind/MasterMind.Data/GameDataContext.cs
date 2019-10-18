@@ -5,6 +5,11 @@ using System.Text;
 
 namespace MasterMind.Data
 {
+
+    //Run Migrations from PMC
+    //Add-Migration [migrationName] -Project MasterMind.Data -Context GameDataContext
+    //Update-Database [migrationName] -Project MasterMind.Data -Context GameDataContext
+
     public class GameDataContext: DbContext
     {
         public DbSet<Game> Games { get; set; }
@@ -43,13 +48,11 @@ namespace MasterMind.Data
                .Property(gp => gp.KeyPeg4)
                .HasConversion(GamePattern.GetKeyPegConverter());
 
-            modelBuilder.Entity<GamePattern>(entity =>
-            {
-                entity.HasKey(e => e.Game);
-                entity.HasOne(g => g.Game)
+            modelBuilder.Entity<GamePattern>()
+                .HasOne(g => g.Game)
                 .WithMany(p => p.Patterns)
                 .OnDelete(DeleteBehavior.Cascade);
-            });
+
         }
     }
 }

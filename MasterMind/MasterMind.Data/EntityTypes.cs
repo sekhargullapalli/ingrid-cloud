@@ -10,7 +10,7 @@ namespace MasterMind.Data
     public class Game
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int GameID { get; set; }
         public string Guid { get; set; } //represented as string for sqlite 
         public DateTime CreatedDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -18,13 +18,14 @@ namespace MasterMind.Data
         public bool IsCompleted { get; set; }
 
 
-        public List<GamePattern> Patterns { get; set; }
+        public List<GamePattern> Patterns { get; set; } = new List<GamePattern>();
+
     }
     [Table("mmGamePattern")]
     public class GamePattern
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int GamePatternID { get; set; }
 
         [Range(0, 8)]
         public int Level { get; set; } //Level 0 represents code , 1-8 represent user guesses
@@ -43,9 +44,10 @@ namespace MasterMind.Data
         public KeyPeg? KeyPeg4 { get; set; } = null;
         public static ValueConverter<KeyPeg?, string> GetKeyPegConverter() => new ValueConverter<KeyPeg?, string>(
             v => v.ToString(),
-            v => String.IsNullOrEmpty(v) ? null : (KeyPeg?)Enum.Parse(typeof(KeyPeg?), v));
+            v => String.IsNullOrEmpty(v) ? null : (KeyPeg?)Enum.Parse(typeof(KeyPeg?), v));       
 
         public Game Game { get; set; }
+
         public bool IsCompleted() => KeyPeg1.HasValue && KeyPeg2.HasValue && KeyPeg3.HasValue && KeyPeg4.HasValue &&
             (KeyPeg1 == KeyPeg.Black) && (KeyPeg2 == KeyPeg.Black) && (KeyPeg3 == KeyPeg.Black) && (KeyPeg4 == KeyPeg.Black);
     }
