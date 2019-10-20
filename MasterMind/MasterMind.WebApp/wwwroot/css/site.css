@@ -90,6 +90,12 @@ body {
     border: solid thin lightgreen;
 }
 
+.gamemessagecontainer {
+    color: lightgreen;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 32px;
+}
 
 .dot {
     height: 25px;

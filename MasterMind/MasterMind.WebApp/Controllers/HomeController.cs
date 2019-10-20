@@ -98,12 +98,12 @@ namespace MasterMind.WebApp.Controllers
                     Game =game
                 };
                 game.Patterns.Add(pattern);
-                game.IsCompleted = pattern.IsCompleted();
+                game.IsCompleted = pattern.IsCompleted() ||model.level==8;
                 _context.Games.Update(game);
                 _context.GamePatterns.Add(pattern);                           
                 _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if(game==null)
                     RedirectToAction(nameof(HomeController.Index), "Home");

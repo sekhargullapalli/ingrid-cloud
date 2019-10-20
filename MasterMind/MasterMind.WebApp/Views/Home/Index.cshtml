@@ -3,6 +3,12 @@
 @{
     int currLevel = Model.Patterns.Count();
     bool completed = Model.IsCompleted || currLevel > 8;
+    string message = string.Empty;
+    if (completed)
+    {
+        bool won = Model.Patterns.OrderBy(x => x.Level).Last().IsCompleted();
+        message = won ? "you won!" : "you lost :(";
+    }
 }
 
 <div class="siteheader">let's play master mind ..</div>
@@ -38,12 +44,35 @@
         </div>
 
         <div class="gametablecontainer">
+            @if (message != string.Empty)
+            {
+                <div class="gamemessagecontainer animated tada infinite">
+                   @message
+                </div>
+                <div class="helptext" style="color: lightgreen; text-align:center">
+                    the secret code is
+                </div>
+                <div style="text-align:center; margin-top:20px;">
+                    @{
+                        var pattern = @Model.Patterns.Where(p => p.Level == 0).First();
+                        string cls = $"dot{pattern.CodePeg1.ToString()}";
+                        <span class=@cls></span>
+                        cls = $"dot{pattern.CodePeg2.ToString()}";
+                        <span class=@cls></span>
+                        cls = $"dot{pattern.CodePeg3.ToString()}";
+                        <span class=@cls></span>
+                        cls = $"dot{pattern.CodePeg4.ToString()}";
+                        <span class=@cls></span>
+                    }
+                </div>
+
+            }
             <table class="gametable">
 
                 @for (int i = 8; i > 0; i--)
                 {
                     if (i > currLevel ||
-                        (i==currLevel && completed))
+                        (i == currLevel && completed))
                     {
                         <tr class="gametablerow">
                             <td style="width: 60px; text-align: center;">
