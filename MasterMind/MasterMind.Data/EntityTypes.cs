@@ -38,17 +38,16 @@ namespace MasterMind.Data
             v => v.ToString(),
             v => (CodePeg)Enum.Parse(typeof(CodePeg), v));
 
-        public KeyPeg? KeyPeg1 { get; set; } = null;
-        public KeyPeg? KeyPeg2 { get; set; } = null;
-        public KeyPeg? KeyPeg3 { get; set; } = null;
-        public KeyPeg? KeyPeg4 { get; set; } = null;
-        public static ValueConverter<KeyPeg?, string> GetKeyPegConverter() => new ValueConverter<KeyPeg?, string>(
-            v => v.ToString(),
-            v => String.IsNullOrEmpty(v) ? null : (KeyPeg?)Enum.Parse(typeof(KeyPeg?), v));       
+        public KeyPeg KeyPeg1 { get; set; } = KeyPeg.None;
+        public KeyPeg KeyPeg2 { get; set; } = KeyPeg.None;
+        public KeyPeg KeyPeg3 { get; set; } = KeyPeg.None;
+        public KeyPeg KeyPeg4 { get; set; } = KeyPeg.None;
+        public static ValueConverter<KeyPeg, string> GetKeyPegConverter() => new ValueConverter<KeyPeg, string>(
+           v => v.ToString(),
+           v => (KeyPeg)Enum.Parse(typeof(KeyPeg), v));
 
         public Game Game { get; set; }
 
-        public bool IsCompleted() => KeyPeg1.HasValue && KeyPeg2.HasValue && KeyPeg3.HasValue && KeyPeg4.HasValue &&
-            (KeyPeg1 == KeyPeg.Black) && (KeyPeg2 == KeyPeg.Black) && (KeyPeg3 == KeyPeg.Black) && (KeyPeg4 == KeyPeg.Black);
+        public bool IsCompleted() => (KeyPeg1 == KeyPeg.Black) && (KeyPeg2 == KeyPeg.Black) && (KeyPeg3 == KeyPeg.Black) && (KeyPeg4 == KeyPeg.Black);
     }
 }

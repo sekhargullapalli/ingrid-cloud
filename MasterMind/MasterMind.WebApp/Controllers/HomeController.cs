@@ -9,6 +9,7 @@ using MasterMind.WebApp.Models;
 using MasterMind;
 using Microsoft.AspNetCore.Authorization;
 using MasterMind.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MasterMind.WebApp.Controllers
 {    
@@ -24,13 +25,7 @@ namespace MasterMind.WebApp.Controllers
             _codeAnalyzer = codeAnalyzer;
             _context = context;
         }
-
         public IActionResult Index()
-        {
-            return View();
-        }
-        [HttpGet("game")]
-        public IActionResult Game()
         {
             var game = new Game
             {
@@ -38,7 +33,7 @@ namespace MasterMind.WebApp.Controllers
                 CreatedDate = DateTime.Now,
                 IsActive = true,
                 IsCompleted = false
-            };      
+            };
             game.Patterns.Add(new GamePattern
             {
                 Level = 0,
@@ -46,18 +41,73 @@ namespace MasterMind.WebApp.Controllers
                 CodePeg2 = SiteExtensions.RandomEnum<CodePeg>(),
                 CodePeg3 = SiteExtensions.RandomEnum<CodePeg>(),
                 CodePeg4 = SiteExtensions.RandomEnum<CodePeg>(),
+                KeyPeg1= KeyPeg.None,
+                KeyPeg2 = KeyPeg.None,
+                KeyPeg3 = KeyPeg.None,
+                KeyPeg4 = KeyPeg.None,
                 Game = game
             });
             _context.Games.Add(game);
-            _context.GamePatterns.Add(game.Patterns.First());           
+            _context.GamePatterns.Add(game.Patterns.First());
+            _context.SaveChanges();
             return View(game);
         }
-        [HttpGet("game/{gameid}")]
-        public IActionResult Game(string gameid)
+        [HttpPost]
+        public IActionResult Index(GameViewModel model)
         {
-            var game = _context.Games.FirstOrDefault(g => g.Guid == gameid);
-            if (game == null)
-                return RedirectToLocal("/game");
+            Game game = null;
+            try
+            {
+                game = _context.Games.AsNoTracking().Include(p=>p.Patterns).Where(g => g.Guid == model.guid).FirstOrDefault();
+                int currlevel = game.Patterns.Count();
+                var basePatern = game.Patterns.Where(p => p.Level == 0).FirstOrDefault();
+                List<CodePeg> code = new List<CodePeg>
+                {
+                    basePatern.CodePeg1,
+                    basePatern.CodePeg2,
+                    basePatern.CodePeg3,
+                    basePatern.CodePeg4
+                };
+                List<CodePeg> guess = new List<CodePeg>
+                {
+                    (CodePeg)Enum.Parse(typeof(CodePeg), model.codepeg1),
+                    (CodePeg)Enum.Parse(typeof(CodePeg), model.codepeg2),
+                    (CodePeg)Enum.Parse(typeof(CodePeg), model.codepeg3),
+                    (CodePeg)Enum.Parse(typeof(CodePeg), model.codepeg4)
+                };
+                List<KeyPeg> keys = _codeAnalyzer.EvaluateGuess(guess, code).ToList();
+                List<KeyPeg> _keys = new List<KeyPeg>();
+                foreach(var key in keys)
+                    _keys.Add(key);
+                while (_keys.Count < 4)
+                    _keys.Add(KeyPeg.None);
+
+                var pattern = new GamePattern
+                {
+                    Level=currlevel,
+                    CodePeg1 = guess[0],
+                    CodePeg2 = guess[1],
+                    CodePeg3 = guess[2],
+                    CodePeg4 = guess[3],
+                    KeyPeg1 = _keys[0],
+                    KeyPeg2 = _keys[1],
+                    KeyPeg3 = _keys[2],
+                    KeyPeg4 = _keys[3],
+                    Game =game
+                };
+                game.Patterns.Add(pattern);
+                game.IsCompleted = pattern.IsCompleted();
+                _context.Games.Update(game);
+                _context.GamePatterns.Add(pattern);                           
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                if(game==null)
+                    RedirectToAction(nameof(HomeController.Index), "Home");
+                return
+                    View(game);
+            }            
             return View(game);
         }     
 
@@ -73,14 +123,6 @@ namespace MasterMind.WebApp.Controllers
             id = id.Replace("*^S^*", "/");
             ViewData["OriginalRoute"] = id;
             return View();
-        }
-
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
-            else
-                return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }

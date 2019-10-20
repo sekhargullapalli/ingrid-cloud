@@ -35,10 +35,10 @@ namespace MasterMind.Data.Migrations
                     CodePeg2 = table.Column<string>(nullable: false),
                     CodePeg3 = table.Column<string>(nullable: false),
                     CodePeg4 = table.Column<string>(nullable: false),
-                    KeyPeg1 = table.Column<string>(nullable: true),
-                    KeyPeg2 = table.Column<string>(nullable: true),
-                    KeyPeg3 = table.Column<string>(nullable: true),
-                    KeyPeg4 = table.Column<string>(nullable: true),
+                    KeyPeg1 = table.Column<string>(nullable: false),
+                    KeyPeg2 = table.Column<string>(nullable: false),
+                    KeyPeg3 = table.Column<string>(nullable: false),
+                    KeyPeg4 = table.Column<string>(nullable: false),
                     GameID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

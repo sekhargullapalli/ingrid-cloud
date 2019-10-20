@@ -1,12 +1,208 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using MasterMind.Data
+@model Game
+@{
+    int currLevel = Model.Patterns.Count();   
 }
 
+<div class="siteheader">let's play master mind ..</div>
 
-<div class="mainlanding">
+
+<div class="gamecontainer">
+
     <div class="container">
-        <h1 class="white-text">The game site is under development</h1>
-        <h4 class="white-text">https://themastermind.azurewebsites.net/</h4>
+
+        <a class="waves-effect waves-light btn"><i class="material-icons left">add</i>New Game</a>
+        <a class="waves-effect waves-light btn right" onclick="clearcodes()"><i class="material-icons left">clear_all</i>Clear All</a>
+
+        <div id="modal1" class="modal">
+            <div class="modal-content modalstyle center">
+                <div class="center" style="margin-bottom: 20px;">
+                    <i class="modal-close material-icons right">close</i>
+                    <div class="helptext">
+                        Select a color
+                    </div>
+
+                </div>
+                <tr class="gametablerow" style="background: lightgreen">
+                    <td style=" text-align: center;" colspan="4">
+                        <span class="dotWhite" onmousedown="setCode('dotWhite','White')"></span>
+                        <span class="dotPurple" onmousedown="setCode('dotPurple','Purple')"></span>
+                        <span class="dotYellow" onmousedown="setCode('dotYellow','Yellow')"></span>
+                        <span class="dotGreen" onmousedown="setCode('dotGreen','Green')"></span>
+                        <span class="dotRed" onmousedown="setCode('dotRed','Red')"></span>
+                        <span class="dotBlue" onmousedown="setCode('dotBlue','Blue')"></span>
+                    </td>
+                </tr>
+            </div>
+        </div>
+
+        <div class="gametablecontainer">
+            <table class="gametable">
+
+                @for (int i = 8; i > 0; i--)
+                {
+                    if (i > currLevel ||
+                        (i == currLevel && Model.IsCompleted))
+                    {
+                        <tr class="gametablerow">
+                            <td style="width: 60px; text-align: center;">
+                            </td>
+                            <td style="width:30px; text-align: center;">
+                                <span class="levelindicator">@i</span>
+                            </td>
+                            <td style=" text-align: center;">
+                                <span class="dotInactive"></span>
+                                <span class="dotInactive"></span>
+                                <span class="dotInactive"></span>
+                                <span class="dotInactive"></span>
+                            </td>
+                            <td style="width:30px; text-align: center;">
+                            </td>
+                        </tr>
+                    }
+                    else if (i == currLevel && !Model.IsCompleted)
+                    {
+                        <tr class="gametablerow">
+                            <td style="width: 60px; text-align: center;">
+                                <span class="levelindicator animated flash infinite">*</span>
+                            </td>
+                            <td style="width:30px; text-align: center;">
+                                <span class="levelindicator">@i</span>
+                            </td>
+                            <td style=" text-align: center;">
+
+                                <span class="dot" id="cp1" onmousedown="setActive('cp1')"></span>
+                                <span class="dot" id="cp2" onmousedown="setActive('cp2')"></span>
+                                <span class="dot" id="cp3" onmousedown="setActive('cp3')"></span>
+                                <span class="dot" id="cp4" onmousedown="setActive('cp4')"></span>
+                            </td>
+
+                            <td style="width:30px; text-align: center;">
+                                <a class="waves-effect waves-light btn" id="btnsubmit" onclick="checkandsubmit()">Submit</a>
+                            </td>
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="gametablerow">
+                            <td style="width: 60px; text-align: center;">
+                            </td>
+                            <td style="width:30px; text-align: center;">
+                                <span class="levelindicator">@i</span>
+                            </td>
+                            <td style=" text-align: center;">
+                                @{
+                                    var pattern = @Model.Patterns.Where(p => p.Level == i).First();
+                                    string cls = $"dot{pattern.CodePeg1.ToString()}";
+                                    <span class=@cls></span>
+                                    cls = $"dot{pattern.CodePeg2.ToString()}";
+                                    <span class=@cls></span>
+                                    cls = $"dot{pattern.CodePeg3.ToString()}";
+                                    <span class=@cls></span>
+                                    cls = $"dot{pattern.CodePeg4.ToString()}";
+                                    <span class=@cls></span>
+                                }                                
+                            </td>
+
+                            <td style="width:30px; text-align: center;">
+                                <div class="keycontainer">
+                                    <div>
+                                        @{
+                                            string key = string.Empty;
+                                            key = (pattern.KeyPeg1!=MasterMind.KeyPeg.None)?$"dotKey{pattern.KeyPeg1}":"dotKey";
+                                            <span class=@key></span>
+                                            key = (pattern.KeyPeg2!=MasterMind.KeyPeg.None)?$"dotKey{pattern.KeyPeg2}":"dotKey";
+                                            <span class=@key></span>
+                                        }                                        
+                                    </div>
+                                    <div>
+                                        @{
+                                            key = (pattern.KeyPeg3!=MasterMind.KeyPeg.None)?$"dotKey{pattern.KeyPeg3}":"dotKey";
+                                            <span class=@key></span>
+                                            key = (pattern.KeyPeg4!=MasterMind.KeyPeg.None)?$"dotKey{pattern.KeyPeg4}":"dotKey";
+                                            <span class=@key></span>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                }
+
+            </table>
+        </div>
+
+        </div>
+
     </div>
+
+<div class="submitdiv" style="display: none;">
+    <form id="codeform" action="/" method="POST">
+        <input type="hidden" name="guid" id="guid" value="@Model.Guid">
+        <input type="text" name="codepeg1" id="codepeg1">
+        <input type="text" name="codepeg2" id="codepeg2">
+        <input type="text" name="codepeg3" id="codepeg3">
+        <input type="text" name="codepeg4" id="codepeg4">
+    </form>
 </div>
+
+
+@section Scripts{
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('btnsubmit').style.visibility = "hidden";
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems, {});
+        });
+        var activeElement = ""
+        function setActive(txt) {
+            activeElement = txt;
+            const elem = document.getElementById('modal1');
+            const instance = M.Modal.init(elem, { dismissible: false });
+            instance.open();
+        }
+        function setCode(classname, text) {
+
+            document.getElementById(activeElement).setAttribute("class", "");
+            document.getElementById(activeElement).classList.add(classname);
+            document.getElementById(activeElement.replace("cp", "codepeg")).value = text;
+            const elem = document.getElementById('modal1');
+            const instance = M.Modal.init(elem, { dismissible: false });
+            instance.close();
+            checkreadytoSubmit();
+        }
+        function clearcodes() {
+            document.getElementById('cp1').setAttribute("class", "");
+            document.getElementById('cp1').classList.add('dot');
+            document.getElementById('cp2').setAttribute("class", "");
+            document.getElementById('cp2').classList.add('dot');
+            document.getElementById('cp3').setAttribute("class", "");
+            document.getElementById('cp3').classList.add('dot');
+            document.getElementById('cp4').setAttribute("class", "");
+            document.getElementById('cp4').classList.add('dot');
+            document.getElementById('btnsubmit').style.visibility = "hidden";
+
+        }
+        function checkreadytoSubmit() {
+
+            if (document.getElementById('cp1').classList.contains("dot") ||
+                document.getElementById('cp2').classList.contains("dot") ||
+                document.getElementById('cp3').classList.contains("dot") ||
+                document.getElementById('cp4').classList.contains("dot")) {
+                document.getElementById('btnsubmit').style.visibility = "hidden";
+            }
+            else {
+                document.getElementById('btnsubmit').style.visibility = "visible";
+            }
+
+        }
+        function checkandsubmit() {
+            document.getElementById("codeform").submit();
+        }
+
+    </script>
+}
+
 
