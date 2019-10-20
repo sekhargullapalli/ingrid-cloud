@@ -191,6 +191,23 @@
             document.getElementById('btnsubmit').style.visibility = "hidden";
             var elems = document.querySelectorAll('.modal');
             var instances = M.Modal.init(elems, {});
+            console.log({ "gameid": document.getElementById('guid').value });  
+              $.ajax({
+                type:'GET',
+                url:'/getcurrlevel/'+document.getElementById('guid').value,                
+                async:false,
+                dataType:'json',
+                  success: function (data) {
+                      var server = parseInt(data);
+                      var local = parseInt(document.getElementById('level').value);
+                      var valid = server === local;
+                      if (!valid) {
+                          document.getElementById("codeform").submit();
+                      }
+                  }
+            });
+
+
         });
         var activeElement = ""
         function setActive(txt) {
