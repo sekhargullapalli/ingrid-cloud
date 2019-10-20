@@ -52,14 +52,16 @@ namespace MasterMind.WebApp.Controllers
             _context.SaveChanges();
             return View(game);
         }
-        [HttpPost]
+        [HttpPost, AutoValidateAntiforgeryToken]
         public IActionResult Index(GameViewModel model)
         {
             Game game = null;
             try
             {
-                game = _context.Games.AsNoTracking().Include(p=>p.Patterns).Where(g => g.Guid == model.guid).FirstOrDefault();
+                game = _context.Games.AsNoTracking().Include(p=>p.Patterns).Where(g => g.Guid == model.guid).FirstOrDefault();                
                 int currlevel = game.Patterns.Count();
+                if (game.IsCompleted || model.level<currlevel)
+                    return View(game);
                 var basePatern = game.Patterns.Where(p => p.Level == 0).FirstOrDefault();
                 List<CodePeg> code = new List<CodePeg>
                 {

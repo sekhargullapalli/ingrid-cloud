@@ -68,10 +68,11 @@ body {
 
 .keycontainer {
     background: rgb(8, 160, 8);
-    max-width: 60px;
+    min-width: 60px;
+    max-width: 70px;
     margin-left: auto;
     margin-right: auto;
-    padding: 5px;
+    padding: 2px;
 }
 
 .palletecontainer {
@@ -80,10 +81,13 @@ body {
 
 .modal {
     max-width: 450px !important;
+    margin-top: 30vh;
 }
 
 .modalstyle {
-    background: lightgreen;
+    background: rgb(70, 68, 68);
+    color: lightgreen;
+    border: solid thin lightgreen;
 }
 
 
