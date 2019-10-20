@@ -68,15 +68,19 @@ namespace MasterMind.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("KeyPeg1")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("KeyPeg2")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("KeyPeg3")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("KeyPeg4")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Level")

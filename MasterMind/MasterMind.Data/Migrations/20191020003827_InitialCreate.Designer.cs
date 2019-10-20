@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MasterMind.Data.Migrations
 {
     [DbContext(typeof(GameDataContext))]
-    [Migration("20191018101551_InitialCreate")]
+    [Migration("20191020003827_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,15 +70,19 @@ namespace MasterMind.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("KeyPeg1")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("KeyPeg2")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("KeyPeg3")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("KeyPeg4")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Level")

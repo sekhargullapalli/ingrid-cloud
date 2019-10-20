@@ -12,7 +12,8 @@
     public enum KeyPeg
     {
         Black,
-        White
+        White,
+        None
     }
 
 }

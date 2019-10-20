@@ -3,25 +3,25 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> @ViewData["Title"] - MasterMind</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-
+    <title> mastermind</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
-    <link rel="stylesheet" href="~/css/site.css" />    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" />
 
 </head>
 <body>
 
-    <div class="maincontainer">
-        @RenderBody()
-        <div class="mainfooter">
-            <span>Vijaya Sekhar Gullapalli - 2019</span>
-        </div>
+    @RenderBody()
 
+
+    <div class="mainfooter">
+        <span>vijaya sekhar gullapalli - 2019</span>
     </div>
+
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
